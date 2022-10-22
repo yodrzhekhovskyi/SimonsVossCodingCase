@@ -1,8 +1,12 @@
+using SimonsVossCodingCase.Services.Interfaces;
+using SimonsVossCodingCase.Services.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 var app = builder.Build();
 
