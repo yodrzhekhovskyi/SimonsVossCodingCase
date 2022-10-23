@@ -8,6 +8,7 @@ public class Medium
     public string Owner { get; set; } = string.Empty;
     public string SerialNumber { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public int Weight { get; set; } = 0;
 }
 
 public enum MediumType

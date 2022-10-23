@@ -1,10 +1,10 @@
-﻿namespace SimonsVossCodingCase.Repositories.Models;
+﻿namespace SimonsVossCodingCase.Services.Models;
 
-public class Group
+public class SearchResult
 {
     public Guid Id { get; set; }
-    public IEnumerable<Medium> Mediums { get; set; } = Enumerable.Empty<Medium>();
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int Weight { get; set; } = 0;
+    public string Type { get; set; } = string.Empty;
 }

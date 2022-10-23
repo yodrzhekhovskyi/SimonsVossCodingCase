@@ -7,4 +7,6 @@ public class Building
     public string ShortCut { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+
+    public int Weight { get; set; } = 0;
 }

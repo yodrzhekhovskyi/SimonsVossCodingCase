@@ -1,18 +1,34 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Search component</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Enter search phrase" aria-label="Search phrase" aria-describedby="basic-addon2" [(ngModel)]="searchString">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" (click)="getSearchResults()">Search</button>
+  </div>
+</div>
 
-<p *ngIf="!result"><em>Loading...</em></p>
+<p *ngIf="!results"><em>Loading...</em></p>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="result">
+<p *ngIf="results && results.length === 0">
+  No results.
+</p>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results && results.length > 0">
   <thead>
     <tr>
-      <th>Data</th>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Weight</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let string of result">
-      <td>{{ string }}</td>
+    <tr *ngFor="let result of results">
+      <td>{{ result.id }}</td>
+      <td>{{ result.name }}</td>
+      <td>{{ result.description }}</td>
+      <td>{{ result.weight }}</td>
+      <td>{{ result.type }}</td>
     </tr>
   </tbody>
 </table>

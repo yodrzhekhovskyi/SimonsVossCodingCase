@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimonsVossCodingCase.Services.Interfaces;
+using SimonsVossCodingCase.Services.Models;
 
 namespace SimonsVossCodingCase.Controllers;
 
@@ -16,7 +17,7 @@ public class SearchController : ControllerBase
 
     [HttpGet]
     [Route("{q?}")]
-    public IEnumerable<string> GetResult(string? q)
+    public IEnumerable<SearchResult> GetResult(string? q)
     {
         var results = _searchService.GetResults(q ?? string.Empty);
 

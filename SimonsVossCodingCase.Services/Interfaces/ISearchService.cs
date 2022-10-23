@@ -1,6 +1,8 @@
-﻿namespace SimonsVossCodingCase.Services.Interfaces;
+﻿using SimonsVossCodingCase.Services.Models;
+
+namespace SimonsVossCodingCase.Services.Interfaces;
 
 public interface ISearchService
 {
-    public List<string> GetResults(string q);
+    public List<SearchResult> GetResults(string q);
 }

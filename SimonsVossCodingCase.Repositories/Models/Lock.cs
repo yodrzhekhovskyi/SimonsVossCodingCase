@@ -10,6 +10,7 @@ public class Lock
     public string Floor { get; set; } = string.Empty;
     public string RoomNumber { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public int Weight { get; set; } = 0;
 }
 
 public enum LockType

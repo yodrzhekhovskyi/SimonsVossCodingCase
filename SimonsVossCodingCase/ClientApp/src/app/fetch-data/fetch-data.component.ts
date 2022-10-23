@@ -3,15 +3,36 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html'
+  templateUrl: './fetch-data.component.html',
 })
 export class FetchDataComponent {
-  public result: string[] = [];
-  public searchString: string = "";
+  public results: SearchResult[] = [];
+  public searchString: string = '';
+  private _http: HttpClient;
+  private _baseUrl: string;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<string[]>(baseUrl + `api/search/${this.searchString}`).subscribe(result => {
-      this.result = result;
-    }, error => console.error(error));
+    this._http = http;
+    this._baseUrl = baseUrl;
   }
+
+  public getSearchResults(): void {
+    this._http
+      .get<SearchResult[]>(this._baseUrl + `api/search/${this.searchString}`)
+      .subscribe({
+        next: (result) => {
+          this.results = result;
+        },
+        error: (e) => console.error(e),
+        complete: () => console.info('completed'),
+      });
+  }
+}
+
+interface SearchResult {
+  id: string;
+  name: string;
+  description: string;
+  weight: number;
+  type: string;
 }
