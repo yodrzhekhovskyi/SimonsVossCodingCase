@@ -2,8 +2,8 @@
 
 public class DataFile
 {
-    public List<Building> Buildings { get; set; } = new List<Building>();
-    public List<Lock> Locks { get; set; } = new List<Lock>();
-    public List<Group> Groups { get; set; } = new List<Group>();
-    public List<Medium> Mediums { get; set; } = new List<Medium>();
+    public IEnumerable<Building> Buildings { get; set; } = Enumerable.Empty<Building>();
+    public IEnumerable<Lock> Locks { get; set; } = Enumerable.Empty<Lock>();
+    public IEnumerable<Group> Groups { get; set; } = Enumerable.Empty<Group>();
+    public IEnumerable<Medium> Media { get; set; } = Enumerable.Empty<Medium>();
 }

@@ -25,7 +25,7 @@ public class FakeDbGenerator
 
             foreach (var group in dt.Groups)
             {
-                group.Mediums = dt.Mediums.Where(x => x.GroupId == group.Id);
+                group.Media = dt.Media.Where(x => x.GroupId == group.Id);
             }
 
         }

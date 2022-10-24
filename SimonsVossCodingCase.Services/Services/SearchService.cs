@@ -2,14 +2,16 @@
 using SimonsVossCodingCase.Repositories.Models;
 using SimonsVossCodingCase.Services.Interfaces;
 using SimonsVossCodingCase.Services.Models;
+using System.Linq;
 
 namespace SimonsVossCodingCase.Services.Services;
 
 public class SearchService : ISearchService
 {
-    private static DataFile Repository { get; set; }
+    private static DataFile Repository { get; set; } = new DataFile();
     private int FullMatchMultiplier { get; set; } = 10;
 
+    private StringComparison _stringComparison { get; } = StringComparison.InvariantCultureIgnoreCase;
 
     public SearchService() {
         Repository = FakeDbGenerator.GetDataFile();
@@ -25,67 +27,86 @@ public class SearchService : ISearchService
             return resultsList;
         }
          
-        resultsList.AddRange(CalculateBuildindsWeights(results, q));
-        resultsList.AddRange(CalculateLocksWeights(results, q));
-        resultsList.AddRange(CalculateGroupsWeights(results, q));
-        resultsList.AddRange(CalculateMediumsWeights(results, q));
+        resultsList.AddRange(CalculateBuildindsWeights(results.Buildings, q));
+        resultsList.AddRange(CalculateLocksWeights(results.Locks, q));
+        resultsList.AddRange(CalculateGroupsWeights(results.Groups, q));
+        resultsList.AddRange(CalculateMediumsWeights(results.Media, q));
 
         return resultsList.OrderByDescending(x => x.Weight).ThenBy(z => z.Name).ToList();
     }
 
-    public List<SearchResult> CalculateBuildindsWeights(DataFile dataFile, string q)
+    private class PredicateClass<T>
     {
-        var partialMatchNameBuildings = dataFile.Buildings.Where(x => x.Name.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var building in partialMatchNameBuildings)
+        public string PropName { get; set; } = string.Empty;
+        public Func<T, bool> Predicate { get; set; }
+
+        public int Weight { get; set; } = 0;
+        public bool ShouldGoDeeper { get; set; } = false;
+
+        public int TransitiveWeight { get; set; } = 0;
+    }
+
+
+    public List<SearchResult> CalculateBuildindsWeights(IEnumerable<Building> buildings, string q)
+    {
+        List<PredicateClass<Building>> predicatesList = new()
         {
-            if (building.Name.Equals(q, StringComparison.InvariantCultureIgnoreCase))
+            new PredicateClass<Building>()
             {
-                building.Weight += 9 * FullMatchMultiplier;
-            }
-            else
+                PropName = "Name",
+                Predicate = x => x.Name.Contains(q, _stringComparison),
+                Weight = 9,
+                ShouldGoDeeper = true,
+                TransitiveWeight = 8
+            },
+            new PredicateClass<Building>()
             {
-                building.Weight += 9;
-            }
-            
-            foreach (var @lock in building.Locks)
+                PropName = "ShortCut",
+                Predicate = x => x.ShortCut.Contains(q, _stringComparison),
+                Weight = 7,
+                ShouldGoDeeper = true,
+                TransitiveWeight = 5
+            },
+            new PredicateClass<Building>()
             {
-                @lock.Weight += 8;
+                PropName = "Description",
+                Predicate = x => x.Description.Contains(q, _stringComparison),
+                Weight = 5,
+                ShouldGoDeeper = false
+            },
+        };
+
+        foreach (var predicate in predicatesList)
+        {
+            var results = buildings.Where(predicate.Predicate);
+
+            foreach (var result in results)
+            {
+                var value = result.GetType()?.GetProperty(predicate.PropName)?.GetValue(result, null)?.ToString();
+
+                if (value is not null)
+                {
+                    if (value.Equals(q, _stringComparison))
+                    {
+                        result.Weight += predicate.Weight * FullMatchMultiplier;
+                    }
+                    else
+                    {
+                        result.Weight += predicate.Weight;
+                    }
+
+                    if (predicate.ShouldGoDeeper)
+                    {
+                        foreach (var @lock in result.Locks)
+                        {
+                            @lock.Weight += predicate.TransitiveWeight;
+                        }
+                    }
+                }
             }
         }
 
-        var fullMatchShortcutBuildings = dataFile.Buildings.Where(x => x.ShortCut.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var building in fullMatchShortcutBuildings)
-        {
-            if (building.ShortCut.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                building.Weight += 7 * FullMatchMultiplier;
-            }
-            else
-            {
-                building.Weight += 7;
-            }
-                
-            foreach (var @lock in building.Locks)
-            {
-                @lock.Weight += 5;
-            }
-        }
-
-        var fullMatchDescriptionBuildings = dataFile.Buildings.Where(x => x.Description.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var building in fullMatchDescriptionBuildings)
-        {
-            if (building.Description.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                building.Weight += 5 * FullMatchMultiplier;
-            }
-            else
-            {
-                building.Weight += 5;
-            }
-        }
-
-
-        return dataFile.Buildings.Select(x => new SearchResult
+        return buildings.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Name,
@@ -95,88 +116,77 @@ public class SearchService : ISearchService
         }).ToList();
     }
 
-    public List<SearchResult> CalculateLocksWeights(DataFile dataFile, string q)
+    public List<SearchResult> CalculateLocksWeights(IEnumerable<Lock> locks, string q)
     {
-        // TODO for type
-        var fullMatchLockTypeLocks = dataFile.Locks.Where(x => x.LockType.ToString().Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var building in fullMatchLockTypeLocks)
+        List<PredicateClass<Lock>> predicatesList = new()
         {
-            if (building.LockType.ToString().Equals(q, StringComparison.InvariantCultureIgnoreCase))
+            new PredicateClass<Lock>()
             {
-                building.Weight += 3 * FullMatchMultiplier;
-            }
-            else
+                PropName = "LockType",
+                Predicate = x => x.LockType.ToString().Contains(q, _stringComparison),
+                Weight = 3
+            },
+            new PredicateClass<Lock>()
             {
-                building.Weight += 3;
+                PropName = "Name",
+                Predicate = x => x.Name.Contains(q, _stringComparison),
+                Weight = 10,
+                ShouldGoDeeper = true,
+                TransitiveWeight = 5
+            },
+            new PredicateClass<Lock>()
+            {
+                PropName = "SerialNumber",
+                Predicate = x => x.SerialNumber.Contains(q, _stringComparison),
+                Weight = 8,
+                ShouldGoDeeper = false
+            },
+            new PredicateClass<Lock>()
+            {
+                PropName = "Floor",
+                Predicate = x => x.Floor is not null && x.Floor.Contains(q, _stringComparison),
+                Weight = 6,
+                ShouldGoDeeper = false
+            },
+            new PredicateClass<Lock>()
+            {
+                PropName = "RoomNumber",
+                Predicate = x => x.Floor is not null && x.Floor.Contains(q, _stringComparison),
+                Weight = 6,
+                ShouldGoDeeper = false
+            },
+            new PredicateClass<Lock>()
+            {
+                PropName = "Description",
+                Predicate = x => x.Floor is not null && x.Floor.Contains(q, _stringComparison),
+                Weight = 6,
+                ShouldGoDeeper = false
+            },
+        };
+
+        foreach (var predicate in predicatesList)
+        {
+            var results = locks.Where(predicate.Predicate);
+
+            foreach (var result in results)
+            {
+                var value = result.GetType()?.GetProperty(predicate.PropName)?.GetValue(result, null)?.ToString();
+
+                if (value is not null)
+                {
+                    if (value.Equals(q, _stringComparison))
+                    {
+                        result.Weight += predicate.Weight * FullMatchMultiplier;
+                    }
+                    else
+                    {
+                        result.Weight += predicate.Weight;
+                    }
+                }
             }
         }
 
-        var fullMatchNameLocks = dataFile.Locks.Where(x => x.Name.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var @lock in fullMatchNameLocks)
-        {
-            if (@lock.Name.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                @lock.Weight += 10 * FullMatchMultiplier;
-            }
-            else
-            {
-                @lock.Weight += 10;
-            }
-        }
-
-        var fullMatchSerialNumberLocks = dataFile.Locks.Where(x => x.SerialNumber.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var @lock in fullMatchSerialNumberLocks)
-        {
-            if (@lock.SerialNumber.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                @lock.Weight += 8 * FullMatchMultiplier;
-            }
-            else
-            {
-                @lock.Weight += 8;
-            }
-        }
-
-        var fullMatchShortcutLocks = dataFile.Locks.Where(x => x.Floor is not null && x.Floor.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var @lock in fullMatchShortcutLocks)
-        {
-            if (@lock.Floor.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                @lock.Weight += 6 * FullMatchMultiplier;
-            }
-            else
-            {
-                @lock.Weight += 6;
-            }
-        }
-
-        var fullMatchRoomNumberLocks = dataFile.Locks.Where(x => x.RoomNumber is not null && x.RoomNumber.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var @lock in fullMatchRoomNumberLocks)
-        {
-            if (@lock.RoomNumber.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                @lock.Weight += 6 * FullMatchMultiplier;
-            }
-            else
-            {
-                @lock.Weight += 6;
-            }
-        }
-
-        var fullMatchDescriptionLocks = dataFile.Locks.Where(x => x.Description is not null && x.Description.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var @lock in fullMatchDescriptionLocks)
-        {
-            if (@lock.Description.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                @lock.Weight += 6 * FullMatchMultiplier;
-            }
-            else
-            {
-                @lock.Weight += 6;
-            }
-        }
-
-        return dataFile.Locks.Select(x => new SearchResult
+        return locks.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Name,
@@ -186,40 +196,57 @@ public class SearchService : ISearchService
         }).ToList();
     }
 
-    public List<SearchResult> CalculateGroupsWeights(DataFile dataFile, string q)
+    public List<SearchResult> CalculateGroupsWeights(IEnumerable<Group> groups, string q)
     {
-        var fullMatchNameGroups = dataFile.Groups.Where(x => x.Name.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var group in fullMatchNameGroups)
+        List<PredicateClass<Group>> predicatesList = new()
         {
-            if (group.Name.Equals(q, StringComparison.InvariantCultureIgnoreCase))
+            new PredicateClass<Group>()
             {
-                group.Weight += 9 * FullMatchMultiplier;
+                PropName = "Name",
+                Predicate = x => x.Name.Contains(q, _stringComparison),
+                Weight = 9,
+                ShouldGoDeeper = true,
+                TransitiveWeight = 8
+            },
+            new PredicateClass<Group>()
+            {
+                PropName = "Description",
+                Predicate = x => x.Description is not null && x.Description.Contains(q, _stringComparison),
+                Weight = 5
             }
-            else
+        };
+
+        foreach (var predicate in predicatesList)
+        {
+            var results = groups.Where(predicate.Predicate);
+
+            foreach (var result in results)
             {
-                group.Weight += 9;
-            }
-            
-            foreach (var medium in group.Mediums)
-            {
-                medium.Weight += 8;
+                var value = result.GetType()?.GetProperty(predicate.PropName)?.GetValue(result, null)?.ToString();
+
+                if (value is not null)
+                {
+                    if (value.Equals(q, _stringComparison))
+                    {
+                        result.Weight += predicate.Weight * FullMatchMultiplier;
+                    }
+                    else
+                    {
+                        result.Weight += predicate.Weight;
+                    }
+
+                    if (predicate.ShouldGoDeeper)
+                    {
+                        foreach (var medium in result.Media)
+                        {
+                            medium.Weight += predicate.TransitiveWeight;
+                        }
+                    }
+                }
             }
         }
 
-        var fullMatchDescriptionGroups = dataFile.Groups.Where(x => x.Description is not null && x.Description.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var group in fullMatchDescriptionGroups)
-        {
-            if (group.Description.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                group.Weight += 5 * FullMatchMultiplier;
-            }
-            else
-            {
-                group.Weight += 5;
-            }
-        }
-
-        return dataFile.Groups.Select(x => new SearchResult
+        return groups.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Name,
@@ -229,62 +256,63 @@ public class SearchService : ISearchService
         }).ToList();
     }
 
-    public List<SearchResult> CalculateMediumsWeights(DataFile dataFile, string q)
+    public List<SearchResult> CalculateMediumsWeights(IEnumerable<Medium> media, string q)
     {
-        // TODO for type
-        var fullMatchLockTypeMediums = dataFile.Mediums.Where(x => x.MediumType.ToString().Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var medium in fullMatchLockTypeMediums)
+        List<PredicateClass<Medium>> predicatesList = new()
         {
-            if (medium.Description.Equals(q, StringComparison.InvariantCultureIgnoreCase))
+            new PredicateClass<Medium>()
             {
-                medium.Weight += 3 * FullMatchMultiplier;
+                PropName = "MediumType",
+                Predicate = x => x.MediumType.ToString().Contains(q, _stringComparison),
+                Weight = 3
+            },
+            new PredicateClass<Medium>()
+            {
+                PropName = "Owner",
+                Predicate = x => x.Owner.Contains(q, _stringComparison),
+                Weight = 10,
+                ShouldGoDeeper = true,
+                TransitiveWeight = 5
+            },
+            new PredicateClass<Medium>()
+            {
+                PropName = "SerialNumber",
+                Predicate = x => x.SerialNumber.Contains(q, _stringComparison),
+                Weight = 8,
+                ShouldGoDeeper = false
+            },
+            new PredicateClass<Medium>()
+            {
+                PropName = "Description",
+                Predicate = x => x.Description is not null && x.Description.Contains(q, _stringComparison),
+                Weight = 6,
+                ShouldGoDeeper = false
             }
-            else
+        };
+
+        foreach (var predicate in predicatesList)
+        {
+            var results = media.Where(predicate.Predicate);
+
+            foreach (var result in results)
             {
-                medium.Weight += 3;
+                var value = result.GetType()?.GetProperty(predicate.PropName)?.GetValue(result, null)?.ToString();
+
+                if (value is not null)
+                {
+                    if (value.Equals(q, _stringComparison))
+                    {
+                        result.Weight += predicate.Weight * FullMatchMultiplier;
+                    }
+                    else
+                    {
+                        result.Weight += predicate.Weight;
+                    }
+                }
             }
         }
 
-        var fullMatchOwnerMediums = dataFile.Mediums.Where(x => x.Owner.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var medium in fullMatchOwnerMediums)
-        {
-            if (medium.Owner.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                medium.Weight += 10 * FullMatchMultiplier;
-            }
-            else
-            {
-                medium.Weight += 10;
-            }
-        }
-
-        var fullMatchSerialNumberMediums = dataFile.Mediums.Where(x => x.SerialNumber.Contains(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var medium in fullMatchSerialNumberMediums)
-        {
-            if (medium.SerialNumber.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                medium.Weight += 8 * FullMatchMultiplier;
-            }
-            else
-            {
-                medium.Weight += 8;
-            }
-        }
-
-        var fullMatchDescriptionMediums = dataFile.Mediums.Where(x => x.Description is not null && x.Description.Equals(q, StringComparison.InvariantCultureIgnoreCase));
-        foreach (var medium in fullMatchDescriptionMediums)
-        {
-            if (medium.Description.Equals(q, StringComparison.InvariantCultureIgnoreCase))
-            {
-                medium.Weight += 6 * FullMatchMultiplier;
-            }
-            else
-            {
-                medium.Weight += 6;
-            }
-        }
-
-        return dataFile.Mediums.Select(x => new SearchResult
+        return media.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Owner,

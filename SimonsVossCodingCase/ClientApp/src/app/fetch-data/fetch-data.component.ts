@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FetchDataComponent {
   public results: SearchResult[] = [];
-  public searchString: string = '';
+  public searchString: string = 'Head Office';
   private _http: HttpClient;
   private _baseUrl: string;
 
