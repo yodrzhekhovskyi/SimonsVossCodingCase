@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimonsVossCodingCase.Repositories.Models;
 using SimonsVossCodingCase.Services.Interfaces;
 using SimonsVossCodingCase.Services.Models;
 

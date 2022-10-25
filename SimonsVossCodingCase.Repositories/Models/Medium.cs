@@ -1,14 +1,17 @@
 ﻿namespace SimonsVossCodingCase.Repositories.Models;
 
-public class Medium
+public class Medium : BaseEntity
 {
-    public Guid Id { get; set; }
+    public Medium()
+    {
+        Name = Owner;
+        Type = GetType().Name.ToString();
+    }
     public Guid GroupId { get; set; }
     public MediumType MediumType { get; set; }
     public string Owner { get; set; } = string.Empty;
+
     public string SerialNumber { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public int Weight { get; set; } = 0;
 }
 
 public enum MediumType

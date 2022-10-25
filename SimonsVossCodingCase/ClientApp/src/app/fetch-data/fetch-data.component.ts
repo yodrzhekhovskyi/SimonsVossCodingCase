@@ -10,6 +10,8 @@ export class FetchDataComponent {
   public searchString: string = 'Head Office';
   private _http: HttpClient;
   private _baseUrl: string;
+  public showExtendedTable: boolean = false;
+  public showWeights: boolean = false;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._http = http;
@@ -33,6 +35,14 @@ interface SearchResult {
   id: string;
   name: string;
   description: string;
-  weight: number;
   type: string;
+  //Optional
+  weight: number;
+  shortCut: string,
+  lockType: string,
+  serialNumber: string,
+  floor: string,
+  roomNumber: string,
+  mediumType: string,
+  owner: string,
 }

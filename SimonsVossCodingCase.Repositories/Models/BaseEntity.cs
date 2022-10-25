@@ -1,6 +1,6 @@
-﻿namespace SimonsVossCodingCase.Services.Models;
+﻿namespace SimonsVossCodingCase.Repositories.Models;
 
-public class SearchResult
+public class BaseEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

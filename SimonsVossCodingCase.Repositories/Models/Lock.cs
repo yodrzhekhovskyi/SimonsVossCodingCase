@@ -1,16 +1,16 @@
 ﻿namespace SimonsVossCodingCase.Repositories.Models;
 
-public class Lock
+public class Lock : BaseEntity
 {
-    public Guid Id { get; set; }
+    public Lock()
+    {
+        Type = GetType().Name.ToString();
+    }
     public Guid BuildingId { get; set; }
     public LockType LockType { get; set; }
-    public string Name { get; set; } = string.Empty;
     public string SerialNumber { get; set; } = string.Empty;
     public string Floor { get; set; } = string.Empty;
     public string RoomNumber { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public int Weight { get; set; } = 0;
 }
 
 public enum LockType

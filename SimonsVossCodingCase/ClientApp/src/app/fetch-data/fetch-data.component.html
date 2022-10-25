@@ -9,17 +9,37 @@
 
 <p *ngIf="!results"><em>Loading...</em></p>
 
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="showWeights">
+  <label class="form-check-label" for="flexCheckChecked">
+    Show weights
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="showExtendedTable" [(ngModel)]="showExtendedTable">
+  <label class="form-check-label" for="showExtendedTable">
+    Show extended table
+  </label>
+</div>
+
 <p *ngIf="results && results.length === 0">
   No results.
 </p>
+
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results && results.length > 0">
   <thead>
     <tr>
       <th>Id</th>
       <th>Name</th>
       <th>Description</th>
-      <th>Weight</th>
       <th>Type</th>
+      <th *ngIf="showWeights">Weight</th>
+      <th *ngIf="showExtendedTable">Short Cut</th>
+      <th *ngIf="showExtendedTable">Lock Type</th>
+      <th *ngIf="showExtendedTable">Serial Number</th>
+      <th *ngIf="showExtendedTable">Floor</th>
+      <th *ngIf="showExtendedTable">Room Number</th>
+      <th *ngIf="showExtendedTable">Medium Type</th>
     </tr>
   </thead>
   <tbody>
@@ -27,8 +47,14 @@
       <td>{{ result.id }}</td>
       <td>{{ result.name }}</td>
       <td>{{ result.description }}</td>
-      <td>{{ result.weight }}</td>
       <td>{{ result.type }}</td>
+      <td *ngIf="showWeights">{{ result.weight }}</td>
+      <td *ngIf="showExtendedTable">{{ result.shortCut }}</td>
+      <td *ngIf="showExtendedTable">{{ result.lockType }}</td>
+      <td *ngIf="showExtendedTable">{{ result.serialNumber }}</td>
+      <td *ngIf="showExtendedTable">{{ result.floor }}</td>
+      <td *ngIf="showExtendedTable">{{ result.roomNumber }}</td>
+      <td *ngIf="showExtendedTable">{{ result.mediumType }}</td>
     </tr>
   </tbody>
 </table>
