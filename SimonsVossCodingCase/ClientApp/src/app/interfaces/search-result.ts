@@ -1,14 +1,13 @@
 export interface SearchResult {
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    weight: number;
-    shortCut: string,
-    lockType: string,
-    serialNumber: string,
-    floor: string,
-    roomNumber: string,
-    mediumType: string,
-    owner: string,
+  id: string;
+  name: string;
+  description: string;
+  weight: number;
+  shortCut: string,
+  type: string,
+  serialNumber: string,
+  floor: string,
+  roomNumber: string,
+  owner: string,
+  entityType: string
 }

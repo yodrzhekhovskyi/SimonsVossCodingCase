@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SimonsVossCodingCase.Repositories.Models;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using SimonsVossCodingCase.DTOs;
 using SimonsVossCodingCase.Services.Interfaces;
-using SimonsVossCodingCase.Services.Models;
 
 namespace SimonsVossCodingCase.Controllers;
 
@@ -10,18 +10,16 @@ namespace SimonsVossCodingCase.Controllers;
 public class SearchController : ControllerBase
 {
     private readonly ISearchService _searchService;
+    private readonly IMapper _mapper;
 
-    public SearchController(ISearchService searchService)
+    public SearchController(ISearchService searchService, IMapper mapper)
     {
         _searchService = searchService;
+        _mapper = mapper;
     }
 
     [HttpGet]
     [Route("{q?}")]
-    public IEnumerable<SearchResult> GetResult(string? q)
-    {
-        var results = _searchService.GetResults(q ?? string.Empty);
-
-        return results;
-    }
+    public IEnumerable<SearchResultDTO> GetResult(string? q)
+        => _mapper.Map<IEnumerable<SearchResultDTO>>(_searchService.GetResults(q ?? string.Empty));
 }

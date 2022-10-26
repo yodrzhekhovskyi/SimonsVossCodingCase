@@ -17,17 +17,6 @@ public class FakeDbGenerator
         if (result is not null)
         {
             dt = (DataFile)result;
-
-            foreach (var building in dt.Buildings)
-            {
-                building.Locks = dt.Locks.Where(x => x.BuildingId == building.Id);
-            }
-
-            foreach (var group in dt.Groups)
-            {
-                group.Media = dt.Media.Where(x => x.GroupId == group.Id);
-            }
-
         }
 
         return dt;

@@ -1,5 +1,5 @@
 ﻿using SimonsVossCodingCase.Repositories.Models;
-using SimonsVossCodingCase.Services.Models;
+using SimonsVossCodingCase.Services.HelperClasses;
 
 namespace SimonsVossCodingCase.Services.Interfaces;
 

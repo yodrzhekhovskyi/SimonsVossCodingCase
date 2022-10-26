@@ -1,6 +1,4 @@
-﻿using SimonsVossCodingCase.Repositories.Models;
-
-namespace SimonsVossCodingCase.Services.Models;
+﻿namespace SimonsVossCodingCase.Services.HelperClasses;
 
 public class SearchResult
 {
@@ -8,11 +6,10 @@ public class SearchResult
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int Weight { get; set; } = 0;
-    public string Type { get; set; } = string.Empty;
     public string ShortCut { get; set; } = string.Empty;
-    public string LockType { get; set; }
+    public string? Type { get; set; }
     public string SerialNumber { get; set; } = string.Empty;
     public string Floor { get; set; } = string.Empty;
     public string RoomNumber { get; set; } = string.Empty;
-    public string MediumType { get; set; }
+    public string EntityType { get; set; } = string.Empty;
 }

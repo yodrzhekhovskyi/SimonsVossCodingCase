@@ -1,62 +1,53 @@
-﻿using SimonsVossCodingCase.Repositories.Models;
-using SimonsVossCodingCase.Services.Models;
+﻿using SimonsVossCodingCase.Services.HelperClasses;
 
-namespace SimonsVossCodingCase.Services.HelperClasses;
+namespace SimonsVossCodingCase.Services.Helpers;
 
 public static class PrintHelper
 {
     public static List<SearchResult> PrintResults(IEnumerable<Building> building)
-    {
-        return building.Select(x => new SearchResult
+        => building.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
             Weight = x.Weight,
             ShortCut = x.ShortCut,
-            Type = x.GetType().Name.ToString()
+            EntityType = x.EntityType
         }).ToList();
-    }
 
     public static List<SearchResult> PrintResults(IEnumerable<Lock> locks)
-    {
-        return locks.Select(x => new SearchResult
+        => locks.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
             Weight = x.Weight,
-            LockType = x.LockType.ToString(),
+            Type = x.Type.ToString(),
             Floor = x.Floor,
             SerialNumber = x.SerialNumber,
             RoomNumber = x.RoomNumber,
-            Type = x.GetType().Name.ToString()
+            EntityType = x.EntityType
         }).ToList();
-    }
 
     public static List<SearchResult> PrintResults(IEnumerable<Group> groups)
-    {
-        return groups.Select(x => new SearchResult
+        => groups.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
             Weight = x.Weight,
-            Type = x.GetType().Name.ToString()
+            EntityType = x.EntityType
         }).ToList();
-    }
 
     public static List<SearchResult> PrintResults(IEnumerable<Medium> media)
-    {
-        return media.Select(x => new SearchResult
+        => media.Select(x => new SearchResult
         {
             Id = x.Id,
             Name = x.Owner,
             Description = x.Description,
             Weight = x.Weight,
-            MediumType = x.MediumType.ToString(),
+            Type = x.Type.ToString(),
             SerialNumber = x.SerialNumber,
-            Type = x.GetType().Name.ToString()
+            EntityType = x.EntityType
         }).ToList();
-    }
 }

@@ -1,14 +1,12 @@
-﻿using SimonsVossCodingCase.Repositories.Models;
-using SimonsVossCodingCase.Services.HelperClasses;
+﻿using SimonsVossCodingCase.Services.HelperClasses;
 
 namespace SimonsVossCodingCase.Services.Helpers;
 
-internal class WeightCalculator
+public class WeightCalculatorHelper
 {
-    private StringComparison StringComparison { get; } = StringComparison.InvariantCultureIgnoreCase;
     private static int FullMatchMultiplier { get; set; } = 10;
 
-    public void IterateResults<T>(IEnumerable<T> results, SearchCriteria<T> predicate, string q) where T : BaseEntity
+    public static void IterateResults<T>(IEnumerable<T> results, SearchCriteria<T> predicate, string q) where T : BaseEntity
     {
         foreach (var result in results)
         {
@@ -18,7 +16,7 @@ internal class WeightCalculator
             {
                 bool shouldMultiplyForFullMatch = false;
 
-                if (value.Equals(q, StringComparison))
+                if (value.Equals(q, Constants.EqualsStringComparition))
                 {
                     result.Weight += predicate.Weight * FullMatchMultiplier;
                     shouldMultiplyForFullMatch = true;

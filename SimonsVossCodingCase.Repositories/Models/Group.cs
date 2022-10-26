@@ -1,11 +1,8 @@
 ﻿namespace SimonsVossCodingCase.Repositories.Models;
 
-public class Group : BaseEntity
+public class Group
 {
-    public Group()
-    {
-        Type = GetType().Name.ToString();
-    }
-
-    public IEnumerable<Medium> Media { get; set; } = Enumerable.Empty<Medium>();
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 }

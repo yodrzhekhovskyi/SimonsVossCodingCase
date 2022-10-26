@@ -1,5 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { SearchResult } from '../interfaces/search-result';
 import { SearchService } from '../services/search.service';
 
@@ -10,8 +9,7 @@ import { SearchService } from '../services/search.service';
 export class SearchComponent {
   public results: SearchResult[] = [];
   public searchString: string = '';
-  public showExtendedTable: boolean = false;
-  public showWeights: boolean = false;
+  public showWeights: boolean = true;
   public isLoading: boolean = false;
   private _searchService: SearchService;
 

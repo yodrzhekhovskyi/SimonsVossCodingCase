@@ -1,12 +1,9 @@
 ﻿namespace SimonsVossCodingCase.Repositories.Models;
 
-public class Building : BaseEntity
+public class Building
 {
-    public Building()
-    {
-        Type = GetType().Name.ToString();
-    }
-
-    public IEnumerable<Lock> Locks { get; set; } = Enumerable.Empty<Lock>();
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public string ShortCut { get; set; } = string.Empty;
 }

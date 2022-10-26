@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimonsVossCodingCase", "Sim
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimonsVossCodingCase.Services", "SimonsVossCodingCase.Services\SimonsVossCodingCase.Services.csproj", "{24EF0653-C4E5-460A-8295-02A3F5ACDDA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimonsVossCodingCase.Repositories", "SimonsVossCodingCase.Repositories\SimonsVossCodingCase.Repositories.csproj", "{B76015CA-BBF4-4495-9B17-69739B1CEC9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimonsVossCodingCase.Repositories", "SimonsVossCodingCase.Repositories\SimonsVossCodingCase.Repositories.csproj", "{B76015CA-BBF4-4495-9B17-69739B1CEC9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimonsVossCodingCase.uTests", "SimonsVossCodingCase.uTests\SimonsVossCodingCase.uTests.csproj", "{BA90BEAB-2B76-4F34-9546-938049101DF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B76015CA-BBF4-4495-9B17-69739B1CEC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B76015CA-BBF4-4495-9B17-69739B1CEC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B76015CA-BBF4-4495-9B17-69739B1CEC9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA90BEAB-2B76-4F34-9546-938049101DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA90BEAB-2B76-4F34-9546-938049101DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA90BEAB-2B76-4F34-9546-938049101DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA90BEAB-2B76-4F34-9546-938049101DF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
