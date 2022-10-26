@@ -2,7 +2,7 @@
 <h6>This component allows to search for most relevant results. Please, enter a search phrase and click 'Search' button to get results. If the search phrase is empty - results will be displayed, but sorted only by names ascending (A-Z)</h6>
 
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Enter search phrase" aria-label="Search phrase" aria-describedby="basic-addon2" [(ngModel)]="searchString">
+  <input type="text" class="form-control" placeholder="Enter search phrase" aria-label="Search phrase" aria-describedby="basic-addon2" [(ngModel)]="searchString" (keyup.enter)="getSearchResults()">
   <div class="input-group-append">
     <button class="btn btn-primary" type="button" (click)="getSearchResults()">Search</button>
   </div>
