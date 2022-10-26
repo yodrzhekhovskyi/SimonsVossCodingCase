@@ -25,31 +25,33 @@
   No results.
 </h5>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results && results.length > 0">
-  <thead>
-    <tr class="text-center">
-      <th class="align-middle">Name</th>
-      <th class="align-middle">Description</th>
-      <th class="align-middle">Entity Type</th>
-      <th class="align-middle d-none d-xl-table-cell">Short Cut</th>
-      <th class="align-middle d-none d-xl-table-cell">Type</th>
-      <th class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">Serial Number</th>
-      <th class="align-middle d-none d-xl-table-cell">Floor</th>
-      <th class="align-middle d-none d-xl-table-cell">Room Number</th>
-      <th class="align-middle d-none d-xl-table-cell" *ngIf="showWeights">Weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let result of results">
-      <td class="align-middle">{{ result.name }}</td>
-      <td class="align-middle">{{ result.description }}</td>
-      <td class="align-middle">{{ result.entityType }}</td>
-      <td class="align-middle d-none d-xl-table-cell">{{ result.shortCut }}</td>
-      <td class="align-middle d-none d-xl-table-cell">{{ result.type }}</td>
-      <td class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">{{ result.serialNumber }}</td>
-      <td class="align-middle d-none d-xl-table-cell">{{ result.floor }}</td>
-      <td class="align-middle d-none d-xl-table-cell text-center">{{ result.roomNumber }}</td>
-      <td class="align-middle d-none d-xl-table-cell text-center" *ngIf="showWeights">{{ result.weight }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-responsive-lg">
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results && results.length > 0">
+    <thead>
+      <tr class="text-center">
+        <th class="align-middle">Name</th>
+        <th class="align-middle">Description</th>
+        <th class="align-middle">Entity Type</th>
+        <th class="align-middle" *ngIf="showWeights">Weight</th>
+        <th class="align-middle d-none d-xl-table-cell">Short Cut</th>
+        <th class="align-middle d-none d-xl-table-cell">Type</th>
+        <th class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">Serial Number</th>
+        <th class="align-middle d-none d-xl-table-cell">Floor</th>
+        <th class="align-middle d-none d-xl-table-cell">Room Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of results">
+        <td class="align-middle">{{ result.name }}</td>
+        <td class="align-middle">{{ result.description }}</td>
+        <td class="align-middle">{{ result.entityType }}</td>
+        <td class="align-middle" *ngIf="showWeights">{{ result.weight }}</td>
+        <td class="align-middle d-none d-xl-table-cell">{{ result.shortCut }}</td>
+        <td class="align-middle d-none d-xl-table-cell">{{ result.type }}</td>
+        <td class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">{{ result.serialNumber }}</td>
+        <td class="align-middle d-none d-xl-table-cell">{{ result.floor }}</td>
+        <td class="align-middle d-none d-xl-table-cell text-center">{{ result.roomNumber }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
