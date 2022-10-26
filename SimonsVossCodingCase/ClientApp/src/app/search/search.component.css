@@ -1,0 +1,9 @@
+.vertical-tile > .line > span.header {
+    font-weight: bold;
+}
+
+@media (max-width: 991.98px) { 
+    .table-responsive-lg {
+        padding-top: 16px;
+    }
+}

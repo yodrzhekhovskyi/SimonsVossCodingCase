@@ -1,8 +1,11 @@
 <h1 id="tableLabel">Search component</h1>
-<h6>This component allows to search for most relevant results. Please, enter a search phrase and click 'Search' button to get results. If the search phrase is empty - results will be displayed, but sorted only by names ascending (A-Z)</h6>
+<h6>This component allows to search for most relevant results. Please, enter a search phrase and click 'Search' button
+  to get results. If the search phrase is empty - results will be displayed, but sorted only by names ascending (A-Z)
+</h6>
 
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Enter search phrase" aria-label="Search phrase" aria-describedby="basic-addon2" [(ngModel)]="searchString" (keyup.enter)="getSearchResults()">
+  <input type="text" class="form-control" placeholder="Enter search phrase" aria-label="Search phrase"
+    aria-describedby="basic-addon2" [(ngModel)]="searchString" (keyup.enter)="getSearchResults()">
   <div class="input-group-append">
     <button class="btn btn-primary" type="button" (click)="getSearchResults()">Search</button>
   </div>
@@ -29,10 +32,10 @@
   <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results && results.length > 0">
     <thead>
       <tr class="text-center">
-        <th class="align-middle">Name</th>
-        <th class="align-middle">Description</th>
-        <th class="align-middle">Entity Type</th>
-        <th class="align-middle" *ngIf="showWeights">Weight</th>
+        <th class="align-middle d-none d-lg-table-cell">Name</th>
+        <th class="align-middle d-none d-lg-table-cell">Description</th>
+        <th class="align-middle d-none d-lg-table-cell">Entity Type</th>
+        <th class="align-middle d-none d-lg-table-cell" *ngIf="showWeights">Weight</th>
         <th class="align-middle d-none d-xl-table-cell">Short Cut</th>
         <th class="align-middle d-none d-xl-table-cell">Type</th>
         <th class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">Serial Number</th>
@@ -42,15 +45,46 @@
     </thead>
     <tbody>
       <tr *ngFor="let result of results">
-        <td class="align-middle">{{ result.name }}</td>
-        <td class="align-middle">{{ result.description }}</td>
-        <td class="align-middle">{{ result.entityType }}</td>
-        <td class="align-middle" *ngIf="showWeights">{{ result.weight }}</td>
+        <td class="align-middle d-none d-lg-table-cell">{{ result.name }}</td>
+        <td class="align-middle d-none d-lg-table-cell">{{ result.description }}</td>
+        <td class="align-middle d-none d-lg-table-cell">{{ result.entityType }}</td>
+        <td class="align-middle d-none d-lg-table-cell" *ngIf="showWeights">{{ result.weight }}</td>
         <td class="align-middle d-none d-xl-table-cell">{{ result.shortCut }}</td>
         <td class="align-middle d-none d-xl-table-cell">{{ result.type }}</td>
         <td class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">{{ result.serialNumber }}</td>
         <td class="align-middle d-none d-xl-table-cell">{{ result.floor }}</td>
         <td class="align-middle d-none d-xl-table-cell text-center">{{ result.roomNumber }}</td>
+        <td class="align-middle d-lg-none">
+          <div class="vertical-tile">
+            <div class="line" *ngIf="result.name">
+              <span class="header">Name:&nbsp;</span>{{ result.name }}
+            </div>
+            <div class="line" *ngIf="result.description">
+              <span class="header">Description:&nbsp;</span>{{ result.description }}
+            </div>
+            <div class="line" *ngIf="result.entityType">
+              <span class="header">Entity Type:&nbsp;</span>{{ result.entityType }}
+            </div>
+            <div class="line" *ngIf="showWeights">
+              <span class="header">Weight:&nbsp;</span>{{ result.weight }}
+            </div>
+            <div class="line" *ngIf="result.shortCut">
+              <span class="header">Short Cut:&nbsp;</span>{{ result.shortCut }}
+            </div>
+            <div class="line" *ngIf="result.type">
+              <span class="header">Type:&nbsp;</span>{{ result.type }}
+            </div>
+            <div class="line" *ngIf="result.serialNumber">
+              <span class="header">Serial Number:&nbsp;</span>{{ result.serialNumber }}
+            </div>
+            <div class="line" *ngIf="result.floor">
+              <span class="header">Floor:&nbsp;</span>{{ result.floor }}
+            </div>
+            <div class="line" *ngIf="result.roomNumber">
+              <span class="header">Room Number:&nbsp;</span>{{ result.roomNumber }}
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
