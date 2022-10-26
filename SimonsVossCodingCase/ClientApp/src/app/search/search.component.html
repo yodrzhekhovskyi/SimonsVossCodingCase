@@ -28,14 +28,14 @@
   No results.
 </h5>
 
-<div class="table-responsive-lg">
+<div class="table-responsive">
   <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results && results.length > 0">
     <thead>
-      <tr class="text-center">
-        <th class="align-middle d-none d-lg-table-cell">Name</th>
-        <th class="align-middle d-none d-lg-table-cell">Description</th>
-        <th class="align-middle d-none d-lg-table-cell">Entity Type</th>
-        <th class="align-middle d-none d-lg-table-cell" *ngIf="showWeights">Weight</th>
+      <tr>
+        <th class="align-middle d-none d-xl-table-cell">Name</th>
+        <th class="align-middle d-none d-xl-table-cell">Description</th>
+        <th class="align-middle d-none d-xl-table-cell">Entity Type</th>
+        <th class="align-middle d-none d-xl-table-cell" *ngIf="showWeights">Weight</th>
         <th class="align-middle d-none d-xl-table-cell">Short Cut</th>
         <th class="align-middle d-none d-xl-table-cell">Type</th>
         <th class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">Serial Number</th>
@@ -45,16 +45,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let result of results">
-        <td class="align-middle d-none d-lg-table-cell">{{ result.name }}</td>
-        <td class="align-middle d-none d-lg-table-cell">{{ result.description }}</td>
-        <td class="align-middle d-none d-lg-table-cell">{{ result.entityType }}</td>
-        <td class="align-middle d-none d-lg-table-cell" *ngIf="showWeights">{{ result.weight }}</td>
+        <td class="align-middle d-none d-xl-table-cell">{{ result.name }}</td>
+        <td class="align-middle d-none d-xl-table-cell">{{ result.description }}</td>
+        <td class="align-middle d-none d-xl-table-cell">{{ result.entityType }}</td>
+        <td class="align-middle d-none d-xl-table-cell" *ngIf="showWeights">{{ result.weight }}</td>
         <td class="align-middle d-none d-xl-table-cell">{{ result.shortCut }}</td>
         <td class="align-middle d-none d-xl-table-cell">{{ result.type }}</td>
         <td class="align-middle d-none d-xl-table-cell" style="min-width: 130px;">{{ result.serialNumber }}</td>
         <td class="align-middle d-none d-xl-table-cell">{{ result.floor }}</td>
         <td class="align-middle d-none d-xl-table-cell text-center">{{ result.roomNumber }}</td>
-        <td class="align-middle d-lg-none">
+        <td class="align-middle d-xl-none">
           <div class="vertical-tile">
             <div class="line" *ngIf="result.name">
               <span class="header">Name:&nbsp;</span>{{ result.name }}

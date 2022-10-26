@@ -3,7 +3,7 @@
 }
 
 @media (max-width: 991.98px) { 
-    .table-responsive-lg {
+    .table-responsive {
         padding-top: 16px;
     }
 }
