@@ -1,6 +1,7 @@
 ﻿using SimonsVossCodingCase.Services.EntitiesSearchCriterias;
 using SimonsVossCodingCase.Services.HelperClasses;
 using SimonsVossCodingCase.Services.Helpers;
+using SimonsVossCodingCase.Services.Helpers.PrintHelpers;
 
 namespace SimonsVossCodingCase.Services.Extensions.CalculateWeightsExtensions;
 
