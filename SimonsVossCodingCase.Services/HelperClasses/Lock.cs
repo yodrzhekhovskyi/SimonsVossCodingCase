@@ -11,10 +11,11 @@ public class Lock : BaseEntity
     public string SerialNumber { get; set; } = string.Empty;
     public string Floor { get; set; } = string.Empty;
     public string RoomNumber { get; set; } = string.Empty;
-    public enum LockType
-    {
-        Cylinder,
-        SmartHandle
-    }
+}
+
+public enum LockType
+{
+    Cylinder,
+    SmartHandle
 }
 

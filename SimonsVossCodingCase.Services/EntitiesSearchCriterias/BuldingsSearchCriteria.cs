@@ -27,8 +27,7 @@ public static partial class SearchCriterias
         {
             PropName = "Description",
             Predicate = x => x.Description.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 5,
-            ShouldGoDeeper = false
+            Weight = 5
         },
     };
 }

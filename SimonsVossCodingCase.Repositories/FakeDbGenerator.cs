@@ -12,13 +12,13 @@ public class FakeDbGenerator
 
         var result = JsonConvert.DeserializeObject(json, typeof(DataFile));
 
-        DataFile dt = new ();
+        DataFile df = new ();
 
         if (result is not null)
         {
-            dt = (DataFile)result;
+            df = (DataFile)result;
         }
 
-        return dt;
+        return df;
     }
 }

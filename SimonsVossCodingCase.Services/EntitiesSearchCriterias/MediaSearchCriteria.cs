@@ -17,23 +17,19 @@ public static partial class SearchCriterias
         {
             PropName = "Owner",
             Predicate = x => x.Owner.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 10,
-            ShouldGoDeeper = true,
-            TransitiveWeight = 5
+            Weight = 10
         },
         new SearchCriteria<Medium>()
         {
             PropName = "SerialNumber",
             Predicate = x => x.SerialNumber.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 8,
-            ShouldGoDeeper = false
+            Weight = 8
         },
         new SearchCriteria<Medium>()
         {
             PropName = "Description",
             Predicate = x => x.Description is not null && x.Description.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 6,
-            ShouldGoDeeper = false
+            Weight = 6
         }
     };
 }

@@ -6,8 +6,6 @@ namespace SimonsVossCodingCase.Services.Extensions.CalculateWeightsExtensions;
 
 public static partial class WeightCalculatorExtensions
 {
-    private static WeightCalculatorHelper WeightCalculator { get; set; } = new WeightCalculatorHelper();
-
     public static List<SearchResult> CalculateWeights(this IEnumerable<Building> buildings, string q)
     {
         if (!string.IsNullOrWhiteSpace(q))

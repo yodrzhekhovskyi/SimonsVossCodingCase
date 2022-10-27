@@ -17,37 +17,31 @@ public static partial class SearchCriterias
         {
             PropName = "Name",
             Predicate = x => x.Name.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 10,
-            ShouldGoDeeper = true,
-            TransitiveWeight = 5
+            Weight = 10
         },
         new SearchCriteria<Lock>()
         {
             PropName = "SerialNumber",
             Predicate = x => x.SerialNumber.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 8,
-            ShouldGoDeeper = false
+            Weight = 8
         },
         new SearchCriteria<Lock>()
         {
             PropName = "Floor",
             Predicate = x => x.Floor is not null && x.Floor.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 6,
-            ShouldGoDeeper = false
+            Weight = 6
         },
         new SearchCriteria<Lock>()
         {
             PropName = "RoomNumber",
             Predicate = x => x.RoomNumber is not null && x.RoomNumber.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 6,
-            ShouldGoDeeper = false
+            Weight = 6
         },
         new SearchCriteria<Lock>()
         {
             PropName = "Description",
             Predicate = x => x.Description is not null && x.Description.RemoveWhiteSpaces().Contains(q.RemoveWhiteSpaces(), Constants.ContainsStringComparition),
-            Weight = 6,
-            ShouldGoDeeper = false
+            Weight = 6
         },
     };
 }

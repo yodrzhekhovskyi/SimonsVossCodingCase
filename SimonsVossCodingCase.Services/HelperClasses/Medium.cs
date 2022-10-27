@@ -12,11 +12,11 @@ public class Medium : BaseEntity
     public string Owner { get; set; } = string.Empty;
 
     public string SerialNumber { get; set; } = string.Empty;
+}
 
-    public enum MediumType
-    {
-        Card,
-        TransponderWithCardInlay,
-        Transponder
-    }
+public enum MediumType
+{
+    Card,
+    TransponderWithCardInlay,
+    Transponder
 }
