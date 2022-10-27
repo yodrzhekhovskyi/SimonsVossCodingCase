@@ -10,7 +10,7 @@ import { SearchService } from '../services/search.service';
 export class SearchComponent {
   public results: SearchResult[] = [];
   public searchString: string = '';
-  public showWeights: boolean = true;
+  public showWeights: boolean = false;
   public isLoading: boolean = false;
   private _searchService: SearchService;
 
